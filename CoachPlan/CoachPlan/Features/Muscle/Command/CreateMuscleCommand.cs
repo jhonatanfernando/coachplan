@@ -3,7 +3,7 @@ using MediatR;
 
 namespace CoachPlan.Features.Muscle.Command;
 
-public class CreateMuscleCommand : IRequest<int>
+public class CreateMuscleCommand : IRequest<Unit>
 {
     private readonly Domain.Entities.Muscle muscle;
 
@@ -12,7 +12,7 @@ public class CreateMuscleCommand : IRequest<int>
         this.muscle = muscle;
     }      
 
-    public class CreateMuscleCommandHandler : IRequestHandler<CreateMuscleCommand, int>
+    public class CreateMuscleCommandHandler : IRequestHandler<CreateMuscleCommand, Unit>
     {
         private readonly IMuscleService _muscleService;
 
@@ -21,9 +21,11 @@ public class CreateMuscleCommand : IRequest<int>
             _muscleService = muscleService;
         }
 
-        public async Task<int> Handle(CreateMuscleCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateMuscleCommand command, CancellationToken cancellationToken)
         {
-            return await _muscleService.Create(command.muscle);
+            await _muscleService.Create(command.muscle);
+
+            return Unit.Value;
         }
     }
 }

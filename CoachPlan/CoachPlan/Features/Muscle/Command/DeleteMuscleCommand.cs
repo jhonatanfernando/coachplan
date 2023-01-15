@@ -3,7 +3,7 @@ using MediatR;
 
 namespace CoachPlan.Features.Muscle.Command;
 
-public class DeleteMuscleCommand : IRequest<int>
+public class DeleteMuscleCommand : IRequest<Unit>
 {
     private readonly int id;
 
@@ -12,7 +12,7 @@ public class DeleteMuscleCommand : IRequest<int>
         this.id = id;
     }   
 
-    public class DeleteMuscleCommandHandler : IRequestHandler<DeleteMuscleCommand, int>
+    public class DeleteMuscleCommandHandler : IRequestHandler<DeleteMuscleCommand, Unit>
     {
         private readonly IMuscleService _muscleService;
 
@@ -21,13 +21,15 @@ public class DeleteMuscleCommand : IRequest<int>
             _muscleService = muscleService;
         }
 
-        public async Task<int> Handle(DeleteMuscleCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteMuscleCommand command, CancellationToken cancellationToken)
         {
             var muscle = await _muscleService.GetById(command.id);
             if (muscle == null)
                 return default;
 
-            return await _muscleService.Delete(muscle);
+            await _muscleService.Delete(muscle);
+
+            return Unit.Value;
         }
     }
 }
