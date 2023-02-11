@@ -1,17 +1,14 @@
-﻿using CoachPlan.Domain.Services;
-using MediatR;
-
-namespace CoachPlan.Features.Muscle.Command;
+﻿namespace CoachPlan.Features.Muscle.Command;
 
 public class UpdateMuscleCommand : IRequest<Unit>
 {
-    private readonly int id;
-    private readonly Domain.Entities.Muscle muscle;
+    private readonly int _id;
+    private readonly MuscleDto _muscleDto;
 
-    public UpdateMuscleCommand(int id, Domain.Entities.Muscle muscle)
+    public UpdateMuscleCommand(int id, MuscleDto muscleDto)
     {
-        this.id = id;
-        this.muscle = muscle;
+        _id = id;
+        _muscleDto = muscleDto;
     }
 
     public class UpdateMuscleCommandHandler : IRequestHandler<UpdateMuscleCommand, Unit>
@@ -25,11 +22,11 @@ public class UpdateMuscleCommand : IRequest<Unit>
 
         public async Task<Unit> Handle(UpdateMuscleCommand command, CancellationToken cancellationToken)
         {
-            var muscle = await _muscleService.GetById(command.id);
+            var muscle = await _muscleService.GetById(command._id);
             if (muscle == null)
                 return default;
 
-            muscle.Name= command.muscle.Name; 
+            muscle.Name= command._muscleDto.Name; 
 
             await _muscleService.Update(muscle);
 

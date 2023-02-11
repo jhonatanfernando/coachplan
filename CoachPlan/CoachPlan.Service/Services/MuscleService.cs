@@ -1,8 +1,4 @@
-﻿using CoachPlan.Domain.Entities;
-using CoachPlan.Domain.Repositories;
-using CoachPlan.Domain.Services;
-
-namespace CoachPlan.Service.Services;
+﻿namespace CoachPlan.Service.Services;
 
 public class MuscleService : IMuscleService
 {
@@ -13,28 +9,28 @@ public class MuscleService : IMuscleService
         _muscleRepository = muscleRepository;
     }   
 
-    public async Task<int> Create(Muscle muscle)
+    public async Task<int> Create(MuscleDto muscleDto)
     {
-        return await _muscleRepository.Create(muscle);
+        return await _muscleRepository.Create(muscleDto.ToModel());
     }
 
-    public async Task<int> Delete(Muscle muscle)
+    public async Task<int> Delete(MuscleDto muscleDto)
     {
-        return await _muscleRepository.Delete(muscle);
+        return await _muscleRepository.Delete(muscleDto.ToModel());
     }
 
-    public async Task<IEnumerable<Muscle>> GetAll()
+    public async Task<IEnumerable<GetMuscleDto>> GetAll()
     {
-        return await _muscleRepository.GetAll();
+        return (await _muscleRepository.GetAll()).ToGetDto();
     }
 
-    public async Task<Muscle> GetById(int id)
+    public async Task<GetMuscleDto> GetById(int id)
     {
-        return await _muscleRepository.GetById(id);
+        return (await _muscleRepository.GetById(id)).ToGetDto();
     }
 
-    public async Task<int> Update(Muscle muscle)
+    public async Task<int> Update(MuscleDto muscleDto)
     {
-        return await _muscleRepository.Update(muscle);
+        return await _muscleRepository.Update(muscleDto.ToModel());
     }
 }

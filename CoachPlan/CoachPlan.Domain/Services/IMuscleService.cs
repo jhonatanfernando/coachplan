@@ -1,12 +1,12 @@
-﻿using CoachPlan.Domain.Entities;
+﻿using CoachPlan.Domain.Dtos;
 
 namespace CoachPlan.Domain.Services;
 
 public interface IMuscleService
 {
-    Task<IEnumerable<Muscle>> GetAll();
-    Task<Muscle> GetById(int id);
-    Task<int> Create(Muscle muscle);
-    Task<int> Update(Muscle muscle);
-    Task<int> Delete(Muscle muscle);
+    Task<IEnumerable<GetMuscleDto>> GetAll();
+    Task<GetMuscleDto> GetById(int id);
+    Task<int> Create(MuscleDto muscleDto);
+    Task<int> Update(MuscleDto muscleDto);
+    Task<int> Delete(MuscleDto muscleDto);
 }

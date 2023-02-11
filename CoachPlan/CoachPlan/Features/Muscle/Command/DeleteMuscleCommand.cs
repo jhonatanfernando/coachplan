@@ -1,15 +1,12 @@
-﻿using CoachPlan.Domain.Services;
-using MediatR;
-
-namespace CoachPlan.Features.Muscle.Command;
+﻿namespace CoachPlan.Features.Muscle.Command;
 
 public class DeleteMuscleCommand : IRequest<Unit>
 {
-    private readonly int id;
+    private readonly int _id;
 
     public DeleteMuscleCommand(int id)
     {
-        this.id = id;
+        _id = id;
     }   
 
     public class DeleteMuscleCommandHandler : IRequestHandler<DeleteMuscleCommand, Unit>
@@ -23,7 +20,7 @@ public class DeleteMuscleCommand : IRequest<Unit>
 
         public async Task<Unit> Handle(DeleteMuscleCommand command, CancellationToken cancellationToken)
         {
-            var muscle = await _muscleService.GetById(command.id);
+            var muscle = await _muscleService.GetById(command._id);
             if (muscle == null)
                 return default;
 

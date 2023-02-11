@@ -1,17 +1,14 @@
-﻿using CoachPlan.Domain.Services;
-using MediatR;
+﻿namespace CoachPlan.Features.Muscle.Query;
 
-namespace CoachPlan.Features.Muscle.Query;
-
-public class GetMuscleByIdQuery : IRequest<Domain.Entities.Muscle>
+public class GetMuscleByIdQuery : IRequest<GetMuscleDto>
 {
-    private readonly int id;
+    private readonly int _id;
 
     public GetMuscleByIdQuery(int id)
     {
-        this.id = id;
+        _id = id;
     }   
-    public class GetMuscleByIdQueryHandler : IRequestHandler<GetMuscleByIdQuery, Domain.Entities.Muscle>
+    public class GetMuscleByIdQueryHandler : IRequestHandler<GetMuscleByIdQuery, GetMuscleDto>
     {
         private readonly IMuscleService _muscleService;
 
@@ -20,9 +17,9 @@ public class GetMuscleByIdQuery : IRequest<Domain.Entities.Muscle>
             _muscleService = muscleService;
         }
 
-        public async Task<Domain.Entities.Muscle> Handle(GetMuscleByIdQuery query, CancellationToken cancellationToken)
+        public async Task<GetMuscleDto> Handle(GetMuscleByIdQuery query, CancellationToken cancellationToken)
         {
-            return await _muscleService.GetById(query.id);
+            return await _muscleService.GetById(query._id);
         }
     }
 }

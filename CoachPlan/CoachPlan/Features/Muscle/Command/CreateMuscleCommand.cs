@@ -1,16 +1,13 @@
-﻿using CoachPlan.Domain.Services;
-using MediatR;
-
-namespace CoachPlan.Features.Muscle.Command;
+﻿namespace CoachPlan.Features.Muscle.Command;
 
 public class CreateMuscleCommand : IRequest<Unit>
 {
-    private readonly Domain.Entities.Muscle muscle;
+    private readonly MuscleDto _muscleDto;
 
-    public CreateMuscleCommand(Domain.Entities.Muscle muscle)
+    public CreateMuscleCommand(MuscleDto muscleDto)
     {
-        this.muscle = muscle;
-    }      
+        _muscleDto = muscleDto;
+    }
 
     public class CreateMuscleCommandHandler : IRequestHandler<CreateMuscleCommand, Unit>
     {
@@ -23,7 +20,7 @@ public class CreateMuscleCommand : IRequest<Unit>
 
         public async Task<Unit> Handle(CreateMuscleCommand command, CancellationToken cancellationToken)
         {
-            await _muscleService.Create(command.muscle);
+            await _muscleService.Create(command._muscleDto);
 
             return Unit.Value;
         }

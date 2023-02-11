@@ -1,16 +1,12 @@
 using AspNetCoreRateLimit;
 using CoachPlan.Data.Context;
 using CoachPlan.Data.Repositories;
-using CoachPlan.Domain.Entities;
 using CoachPlan.Domain.Repositories;
-using CoachPlan.Domain.Services;
-using CoachPlan.Features.Muscle.Command;
-using CoachPlan.Features.Muscle.Query;
+using CoachPlan.Features.Exercise;
+using CoachPlan.Features.Muscle;
 using CoachPlan.RateLimiting;
 using CoachPlan.Service.Services;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,6 +41,8 @@ builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped<IMuscleRepository, MuscleRepository>();
 builder.Services.AddScoped<IMuscleService, MuscleService>();
+builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
+builder.Services.AddScoped<IExerciseService, ExerciseService>();
 
 builder.Services.AddDbContext<CoachPlanContext>(options =>
        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -67,35 +65,7 @@ app.MapGet("/status", () =>
     return "Running";
 });
 
-app.MapGet("/muscles", async (IMediator _mediator) =>
-{
-    return await _mediator.Send(new GetAllMusclesQuery());
-});
-
-app.MapGet("/muscles/{id}", async (IMediator _mediator, int id) =>
-{
-    return await _mediator.Send(new GetMuscleByIdQuery(id));
-});
-
-app.MapPost("/muscles", async (IMediator _mediator, Muscle muscle) =>
-{
-   await _mediator.Send(new CreateMuscleCommand(muscle));
-
-    return Results.Created($"/muscles/{muscle.Id}", muscle);
-});
-
-app.MapPut("/muscles/{id}", async (IMediator _mediator, int id, Muscle muscle) =>
-{
-    await _mediator.Send(new UpdateMuscleCommand(id, muscle));
-
-    return Results.NoContent();
-});
-
-app.MapDelete("/muscles/{id}", async (IMediator _mediator, int id) =>
-{
-    await _mediator.Send(new DeleteMuscleCommand(id));
-
-    return Results.Ok();
-});
+app.MapExerciseRoutes();
+app.MapMuscleRoutes();
 
 app.Run();
