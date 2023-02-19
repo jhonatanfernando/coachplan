@@ -47,6 +47,11 @@ builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddDbContext<CoachPlanContext>(options =>
        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddStackExchangeRedisCache(opt =>
+{
+    opt.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
+
 var app = builder.Build();
 
 app.UseIpRateLimiting();
