@@ -1,0 +1,41 @@
+﻿@page "/muscles"
+@inject IMuscleService muscleService
+
+<PageTitle>Muscles</PageTitle>
+
+<h1>Muscles</h1>
+
+@if (muscles == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var muscle in muscles)
+            {
+                <tr>
+                    <td>@muscle.Id</td>
+                    <td>@muscle.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    private IEnumerable<GetMuscleDto>? muscles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        muscles = await muscleService.GetAll();
+    }
+}

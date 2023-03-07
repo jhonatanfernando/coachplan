@@ -52,6 +52,24 @@ builder.Services.AddStackExchangeRedisCache(opt =>
     opt.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Access-Control-Allow-Origin", builder =>
+    {
+        builder.SetIsOriginAllowed(origin =>
+        {
+            var uri = new Uri(origin);
+
+            var isAllowed = uri.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase);
+
+            return isAllowed;
+        })
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .Build();
+    });
+});
+
 var app = builder.Build();
 
 app.UseIpRateLimiting();
@@ -72,5 +90,8 @@ app.MapGet("/status", () =>
 
 app.MapExerciseRoutes();
 app.MapMuscleRoutes();
+
+
+app.UseCors("Access-Control-Allow-Origin");
 
 app.Run();
