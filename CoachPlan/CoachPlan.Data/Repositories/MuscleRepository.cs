@@ -13,7 +13,9 @@ public class MuscleRepository : IMuscleRepository
     {
         _coachPlanContext.Muscles.Add(muscle);
 
-        return await _coachPlanContext.SaveChangesAsync();
+        await _coachPlanContext.SaveChangesAsync();
+
+        return muscle.Id;
     }
 
     public async Task<int> Delete(Muscle muscle)
@@ -30,7 +32,7 @@ public class MuscleRepository : IMuscleRepository
 
     public async Task<Muscle> GetById(int id)
     {
-        return await _coachPlanContext.Muscles.Include(d => d.Exercises).Where(m => m.Id == id).SingleOrDefaultAsync();
+        return await _coachPlanContext.Muscles.AsNoTracking().Include(d => d.Exercises).Where(m => m.Id == id).SingleOrDefaultAsync();
     }
 
     public async Task<int> Update(Muscle muscle)

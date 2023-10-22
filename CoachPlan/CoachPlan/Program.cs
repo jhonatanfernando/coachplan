@@ -40,7 +40,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped<IMuscleRepository, MuscleRepository>();
-builder.Services.AddScoped<IMuscleService, MuscleService>();
+builder.Services.AddScoped<IMuscleService, CachedMuscleService>();
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
 

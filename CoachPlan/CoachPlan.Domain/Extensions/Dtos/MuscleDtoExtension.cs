@@ -14,18 +14,18 @@ public static class MuscleDtoExtension
         };
     }
 
-    public static MuscleDto ToDto(this Muscle muscle)
+    public static MuscleDto? ToDto(this Muscle muscle)
     {
-        return new()
+        return muscle == null ? null :  new()
         {
             Id = muscle.Id,
             Name = muscle.Name
         };
     }
 
-    public static GetMuscleDto ToGetDto(this Muscle muscle)
+    public static GetMuscleDto? ToGetDto(this Muscle muscle)
     {
-        return new()
+        return muscle == null ? null :  new()
         {
             Id = muscle.Id,
             Name = muscle.Name,

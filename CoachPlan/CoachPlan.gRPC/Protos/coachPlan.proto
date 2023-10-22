@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option csharp_namespace = "CoachPlan.gRPC";
+
+package coachplan;
+
+service CoachPlan {
+    rpc CreateMuscle(CreateMuscleRequest) returns (ReadMuscleResponse){
+
+    }
+
+    rpc ReadMuscle(ReadMuscleRequest) returns (ReadMuscleResponse) {
+
+    }
+
+    rpc ListMuscle(GetAllMuscleRequest) returns (GetAllMuscleResponse) {
+
+    } 
+    
+    rpc UpdateMuscle(UpdateMuscleRequest) returns (ReadMuscleResponse) {
+
+    }
+
+    rpc DeleteMuscle(DeleteMuscleRequest) returns (DeleteMuscleResponse) {
+
+    }    
+}
+
+message CreateMuscleRequest {
+    string name = 1;
+}
+
+message ReadMuscleRequest {
+    int32 id = 1;
+}
+
+message ReadMuscleResponse {
+    int32 id = 1;
+    string name = 2;
+}
+
+message GetAllMuscleRequest {}
+
+message GetAllMuscleResponse {
+    repeated ReadMuscleResponse muscles = 1;
+}
+
+message UpdateMuscleRequest {
+    int32 id = 1;
+    string name = 2;
+}
+
+message DeleteMuscleRequest {
+    int32 id = 1;
+}
+
+message DeleteMuscleResponse {
+    int32 id = 1;
+}
